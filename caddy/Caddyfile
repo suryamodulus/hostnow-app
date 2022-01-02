@@ -1,0 +1,22 @@
+{
+	on_demand_tls {
+		ask http://127.0.0.1:4000/sites/check
+	}
+}
+
+www.hostnow.site {
+	reverse_proxy 127.0.0.1:4000
+}
+
+hostnow.site {
+	redir https://www.hostnow.site{uri}
+}
+
+*.hostnow.site {
+    tls {
+		on_demand
+	}
+	root * /srv/sites/{host}
+	encode zstd gzip
+	file_server
+}
